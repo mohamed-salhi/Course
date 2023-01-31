@@ -3,8 +3,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
 <meta content="Themesbrand" name="author" />
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <!-- App favicon -->
 <link rel="shortcut icon" href="{{ asset('adminassets/images/favicon.ico') }}">
+@vite('resources/js/app.js')
 
 <!-- Bootstrap Css -->
 <link href="{{ asset('adminassets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />

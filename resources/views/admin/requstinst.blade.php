@@ -67,6 +67,7 @@
                                                 <td>
                                                     <div class="">
                                                         <div class="align-items-center justify-content-between">
+                                                            @can('inst.true')
                                                             <button onclick="Accept({{$item->user_id}})" href="{{route('Accept',$item->user_id)}}" type="button" class="btn btn-outline-primary "
                                                                      aria-haspopup="true"
                                                                     aria-expanded="false">
@@ -78,6 +79,7 @@
                                                                     aria-expanded="false">
                                                                 Cancel
                                                             </button>
+                                                            @endcan
 
                                                         </div>
                                                     </div>

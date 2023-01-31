@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Instructor;
+use App\Models\Lecture;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -16,16 +17,14 @@ class CourseController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $instructors = User::Inst()->get();
         $Course=Course::latest()->paginate(20);
-        return view('coach.Course.index',compact('Course','categories','instructors'));
+        return view('coach.Course.index',compact('Course','categories'));
 
     }
     public function create()
     {
         $categories = Category::all();
-        $instructors = User::Inst()->get();
-        return view('coach.Course.add',compact('categories','instructors'));
+        return view('coach.Course.add',compact('categories'));
 
     }
     public function store(Request $request)
@@ -35,17 +34,17 @@ class CourseController extends Controller
             'detail' => 'required|string',
             'imagee' => 'required',
             'price'=> 'required|integer',
-            'instructor_id' =>
-                [
-                    'required',
-                    'integer',
-                    'exists:user,id'],
+//            'instructor_id' =>
+//                [
+//                    'required',
+//                    'integer',
+//                    'exists:user,id'],
 
             'category_id' =>
                 [
                     'required',
                     'integer',
-                    'exists:category,id'
+                    'exists:App\Models\Category,id'
                 ],
         ]);
 
@@ -56,7 +55,8 @@ class CourseController extends Controller
         $imagename='course'.rand().time().$request->file('imagee')->getClientOriginalName();
         $request->file('imagee')->move(public_path('upload/images/courses'),$imagename);
         $request->merge([
-            'photo'=>$imagename
+            'photo'=>$imagename,
+            'instructor_id'=>auth('web')->user()->id
         ]);
 
         Course::create($request->except('imagee'));
@@ -66,13 +66,13 @@ class CourseController extends Controller
     }
     public function show($id)
     {
-        $course=Course::findOrFail($id);
-        return view('coach.Course.ViewCourse.view',compact('course'));
+       $user=User::select(['name','id'])->get();
+        $course=Course::where('id',$id)->with('category')->with('section')->first();
+        $categories=Category::all();
+        return view('coach.Course.view-course',compact('course','categories','user'));
     }
-    public function edit($id)
-    {
-        //
-    }
+
+
     public function update(Request $request, $id)
     {
         $validator = Validator($request->all(),[
@@ -80,12 +80,12 @@ class CourseController extends Controller
             'detail' => 'required|string',
             'imagee' => 'nullable',
             'price'=> 'required|integer',
-            'instructor_id' =>
-                [
-                    'required',
-                    'integer',
-                    'exists:App\Models\User,id'
-                ],
+//            'instructor_id' =>
+//                [
+//                    'required',
+//                    'integer',
+//                    'exists:App\Models\User,id'
+//                ],
 
             'category_id' =>
                 [
@@ -107,8 +107,16 @@ class CourseController extends Controller
         }
 
         $request->merge([
-            'photo'=>$imagename
+            'photo'=>$imagename,
+            'instructor_id'=>auth('web')->user()->id
+
         ]);
+        if(!$request->has('status')){
+            $request->merge([
+                'status'=>'Inactive'
+            ]);
+        }
+
         $course->update($request->except('imagee'));
         toastr()->success('Data has been saved successfully!', 'Course');
         return redirect()->route('Course.index');

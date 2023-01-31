@@ -54,6 +54,7 @@
                                             <th data-priority="3">Name</th>
                                             <th data-priority="1">Image</th>
                                             <th data-priority="3">Price</th>
+                                            <th data-priority="3">Status</th>
                                             <th data-priority="3">Actions</th>
                                             <th data-priority="3">Show</th>
                                         </tr>
@@ -65,6 +66,7 @@
                                                 <th data-priority="3">{{$item->name}}</th>
                                                 <th><img src="{{asset('upload/images/courses/'.$item->photo)}}" height="50" width="50"></th>
                                                 <th data-priority="2">{{$item->price}}$</th>
+                                                <th data-priority="2">{{$item->status}}</th>
                                                 <td>
                                                     <div class="">
                                                         <div class="btn-group me-1 mt-2">
@@ -156,19 +158,19 @@
                                                                                 </select>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-lg-3 col-form-label">Instructor Name</label>
-                                                                            <div class="col-lg-9">
-                                                                                <select name="instructor_id" id="instructor_id"
-                                                                                        class="select select2-hidden-accessible">
-                                                                                    <option selected disabled>Select Instructor</option>
-                                                                                    @foreach ($instructors as $instructor)
-                                                                                        <option value="{{$instructor->id}}" {{($instructor->id==old('instructor_id',$item->instructor_id))? 'selected':''}} > {{$item->name}} </option>
-                                                                                        </option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
+{{--                                                                        <div class="form-group row">--}}
+{{--                                                                            <label class="col-lg-3 col-form-label">Instructor Name</label>--}}
+{{--                                                                            <div class="col-lg-9">--}}
+{{--                                                                                <select name="instructor_id" id="instructor_id"--}}
+{{--                                                                                        class="select select2-hidden-accessible">--}}
+{{--                                                                                    <option selected disabled>Select Instructor</option>--}}
+{{--                                                                                    @foreach ($instructors as $instructor)--}}
+{{--                                                                                        <option value="{{$instructor->id}}" {{($instructor->id==old('instructor_id',$item->instructor_id))? 'selected':''}} > {{$item->name}} </option>--}}
+{{--                                                                                        </option>--}}
+{{--                                                                                    @endforeach--}}
+{{--                                                                                </select>--}}
+{{--                                                                            </div>--}}
+{{--                                                                        </div>--}}
                                                                         <div class="form-group row">
                                                                             <label class="col-lg-3 col-form-label">Note</label>
                                                                             <div class="col-lg-9">
@@ -179,12 +181,21 @@
                                                                         <div class="form-group row">
                                                                             <label class="col-lg-3 col-form-label">Description</label>
                                                                             <div class="col-lg-9">
-                                        <textarea rows="4" cols="5" name="description" id="description" class="form-control"
-                                                  placeholder="Write a Description">{{$item->description}}</textarea>
+                                                                             <textarea rows="4" cols="5" name="description" id="description" class="form-control"
+                                                                                placeholder="Write a Description">{{$item->description}}</textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="row">
+                                                                    <label class="form-label" >Status</label>
+                                                                    <input name="status" type="checkbox" id="switch1" value="Active" switch="none" {{($item->status =='active')? 'checked':''}}  />
+                                                                    <label class="form-label form-control mx-3 " for="switch1" data-on-label="On"
+                                                                           data-off-label="Off"></label>
+                                                                </div>
+
+                                                                <br>
+
                                                                 <div class="form-group text-right">
                                                                     <button type="submit" class="btn btn-primary" >Update</button>
                                                                 </div>

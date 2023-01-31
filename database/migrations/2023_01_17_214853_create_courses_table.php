@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('photo');
             $table->string('detail');
             $table->integer('price');
+            $table->enum('status',['Inactive','Active'])->default('Inactive');
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->foreignId('instructor_id')->constrained('users')->cascadeOnDelete();
             $table->string('note')->nullable();

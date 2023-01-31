@@ -40,7 +40,10 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h3 class="m-0"></h3>
+                                @can('category.create')
+
                                 <a href="{{route('Category.create')}}">  <button class="btn btn-success waves-effect waves-light">Add</button></a>
+                                @endcan
                             </div>
 
                             <br><br>
@@ -53,6 +56,7 @@
                                             <th data-priority="1">#</th>
                                             <th data-priority="3">Name</th>
                                             <th data-priority="1">Image</th>
+                                            <th data-priority="1">Number Courses</th>
                                             <th data-priority="1">Description</th>
                                             <th data-priority="3">Actions</th>
                                         </tr>
@@ -63,6 +67,7 @@
                                                 <th data-priority="1">{{$loop->index+1}}</th>
                                                 <th data-priority="3">{{$item->name}}</th>
                                                 <th><img src="{{asset('upload/images/category/'.$item->image)}}" height="50" width="50"></th>
+                                                <th data-priority="2">{{$item->course()->count()}}</th>
                                                 <th data-priority="2">{{$item->dest}}</th>
                                                 <td>
                                                     <div class="">
@@ -72,16 +77,20 @@
                                                                     aria-expanded="false">
                                                                 <i class="mdi mdi-chevron-down"></i></button>
                                                             <div class="dropdown-menu">
+                                                                @can('category.edit')
                                                                 <button class="dropdown-item" data-bs-toggle="modal"
                                                                         data-bs-target="#edit{{$item->id}}">
                                                                     <i data-feather="edit-2" class="mr-50"></i>
                                                                     <span>Edit</span>
                                                                 </button>
+                                                                @endcan
+                                                                @can('category.delete')
                                                                 <button class="dropdown-item" data-bs-toggle="modal"
                                                                         data-bs-target="#delete{{$item->id}}">
                                                                     <i data-feather="edit-2" class="mr-50"></i>
                                                                     <span>Delete</span>
                                                                 </button>
+                                                                @endcan
                                                             </div>
                                                         </div>
                                                     </div>

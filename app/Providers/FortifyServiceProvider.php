@@ -88,7 +88,7 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-
+//Fortify::authenticateUsing();
 
             if (Config::get('fortify.guard')=='web') {
                 Fortify::loginView('user.auth.login');
@@ -100,6 +100,10 @@ class FortifyServiceProvider extends ServiceProvider
             }else{
                 Fortify::loginView('admin.auth.login');
                 Fortify::registerView('auth.error404');
+                Fortify::requestPasswordResetLinkView('auth.forgot-password');
+                Fortify::resetPasswordView(function($request) {
+                    return view('auth.reset-password', ['request' => $request]);
+                });
                 }
         }
 

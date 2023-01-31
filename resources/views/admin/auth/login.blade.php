@@ -58,7 +58,8 @@
                         </div>
                         <div class="mb-3 row">
                             <div class="col-12">
-                                <a href="pages-recoverpw.html" class="text-muted"><i class="mdi mdi-lock"></i> Forgot your
+                                <a ass="col-12">
+                                    <a href="{{ route('password.request') }}" class="text-muted"><i class="mdi mdi-lock"></i> Forgot your
                                     password?</a>
                             </div>
                         </div>

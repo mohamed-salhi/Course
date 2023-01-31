@@ -39,8 +39,10 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
+                                @can('admin.delete')
                                 <h3 class="m-0"></h3>
                                 <button  data-bs-toggle="modal" data-bs-target="#add" class="btn btn-success waves-effect waves-light">Add</button>
+                                @endcan
                             </div>
 
                             <br><br>
@@ -76,16 +78,20 @@
                                                                     aria-expanded="false">
                                                                 <i class="mdi mdi-chevron-down"></i></button>
                                                             <div class="dropdown-menu">
+                                                                @can('admin.edit')
                                                                 <button class="dropdown-item" data-bs-toggle="modal"
                                                                         data-bs-target="#edit{{$item->id}}">
                                                                     <i data-feather="edit-2" class="mr-50"></i>
                                                                     <span>Edit</span>
                                                                 </button>
+                                                                @endcan
+                                                                    @can('admin.delete')
                                                                 <button class="dropdown-item" data-bs-toggle="modal"
                                                                         data-bs-target="#delete{{$item->id}}">
                                                                     <i data-feather="edit-2" class="mr-50"></i>
                                                                     <span>Delete</span>
                                                                 </button>
+                                                                    @endcan
                                                             </div>
                                                         </div>
                                                     </div>
@@ -99,7 +105,7 @@
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form class="needs-validation" novalidate method="post" action="{{route('admin.update',$item->id)}}">
+                                                            <form class="needs-validation" novalidate method="post" action="{{route('admin.update',$item->id)}}" enctype="multipart/form-data">
                                                                 @csrf
                                                                 @method('put')
                                                                 <div class="row">
@@ -144,6 +150,27 @@
                                                                     <input name="status" type="checkbox" id="switch1" value="Active" switch="none" {{($item->status =='Active')? 'checked':''}}  />
                                                                     <label class="form-label form-control mx-3 " for="switch1" data-on-label="On"
                                                                            data-off-label="Off"></label>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label>Image</label>
+                                                                    <input  accept="image/*" name="imagee" type="file" class="form-control" />
+                                                                </div>
+                                                                <div class="mb-5">
+                                                                    <label>Roles</label>
+                                                                    @php
+                                                                    $role_admin=$item->roles->pluck('id')->toArray();
+                                                                    @endphp
+
+                                                                    @foreach($roles as $itemm)
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" name="roles[]" type="checkbox" value="{{$itemm->id}}" id="flexCheckDefault" @checked(in_array($itemm->id, old('roles',$role_admin )))>
+                                                                            <label class="form-check-label" for="flexCheckDefault">
+                                                                                {{$itemm->name}}
+                                                                            </label>
+                                                                        </div>
+                                                                    @endforeach
+
+
                                                                 </div>
 
                                                                 <br>
@@ -195,7 +222,7 @@
                                                         <div >
                                                             <div class="card">
                                                                 <div class="card-body">
-                                                                    <form class="needs-validation" novalidate method="post" action="{{route('admin.store')}}">
+                                                                    <form class="needs-validation" novalidate method="post" action="{{route('admin.store')}}"  enctype="multipart/form-data">
                                                                         @csrf
                                                                         <div class="row">
                                                                             <div class="col-md-10">
@@ -255,6 +282,24 @@
                                                                                         Please provide a valid state.
                                                                                     </div>
                                                                                 </div>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label>Image</label>
+                                                                                <input  accept="image/*" name="imagee" type="file" class="form-control" />
+                                                                            </div>
+                                                                            <div class="mb-5">
+                                                                                <label>Roles</label>
+
+                                                                                @foreach($roles as $item)
+                                                                                    <div class="form-check">
+                                                                                        <input class="form-check-input" name="roles[]" type="checkbox" value="{{$item->id}}" id="flexCheckDefault">
+                                                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                                                            {{$item->name}}
+                                                                                        </label>
+                                                                                    </div>
+                                                                                @endforeach
+
+
                                                                             </div>
                                                                             <!-- End Col -->
 

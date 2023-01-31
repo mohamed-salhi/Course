@@ -86,19 +86,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label">Instructor Name</label>
-                                            <div class="col-lg-9">
-                                                <select name="instructor_id" id="instructor_id"
-                                                        class="select select2-hidden-accessible">
-                                                    <option selected disabled>Select Instructor</option>
-                                                    @foreach ($instructors as $instructor)
-                                                        <option value="{{ $instructor->id }}">{{ $instructor->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
+
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Note</label>
                                             <div class="col-lg-9">

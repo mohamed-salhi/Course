@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Mail\acceptinst;
 use App\Models\Admin;
 use App\Models\ReqestRnstructor;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -23,8 +26,10 @@ class AdminController extends Controller
      */
     public function index()
     {
+        Gate::authorize('admin.view');
        $admins=Admin::all();
-       return view('admin.admins',compact('admins'));
+       $roles=Role::all();
+       return view('admin.admins',compact('admins','roles'));
 
     }
 
@@ -46,9 +51,10 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-
+        Gate::authorize('admin.create');
         $validator=  Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
+            'imagee' => ['required'],
             'email' => [
                 'required',
                 'string',
@@ -68,12 +74,18 @@ class AdminController extends Controller
             toastr()->error($validator->getMessageBag()->first(), 'Admin');
             return redirect()->route('admin.index');
         }
-         Admin::create([
+        $imagename='admis'.rand().time().$request->file('imagee')->getClientOriginalName();
+        $request->file('imagee')->move(public_path('upload/images/admin'),$imagename);
+
+
+        $admin= Admin::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
+            'image'=>$imagename
         ]);
+        $admin->roles()->attach($request->roles);
         toastr()->success('Data has been ADD successfully!', 'Admin');
 
         return redirect()->route('admin.index');
@@ -110,6 +122,7 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Gate::authorize('admin.edit');
         $admin=Admin::findOrFail($id);
         $validator=  Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
@@ -137,9 +150,19 @@ if(!$request->has('status')){
         'status'=>'Inactive'
     ]);
 }
+        $imagename=$admin->image;
+        if($request->hasFile('imagee')){
+            File::delete(public_path('upload/images/admin/'.$admin->image));
+            $imagename='admin'.rand().time().$request->file('imagee')->getClientOriginalName();
+            $request->file('imagee')->move(public_path('upload/images/admin'),$imagename);
 
+        }
+        $request->merge([
+            'image'=>$imagename
+        ]);
+        $admin->update($request->except('roles','imagee'));
+        $admin->roles()->sync($request->roles);
 
-        $admin->update($request->all());
         toastr()->success('Data has been Updated successfully!', 'Admin');
 
         return redirect()->route('admin.index');
@@ -153,6 +176,7 @@ if(!$request->has('status')){
      */
     public function destroy($id)
     {
+        Gate::authorize('admin.delete');
         Admin::findOrFail($id)->delete();
         toastr()->success('Data has been Deleted successfully!', 'Admin');
 

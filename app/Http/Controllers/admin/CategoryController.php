@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
@@ -16,7 +17,15 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category=Category::latest()->paginate(1);
+
+        //allows <> denise
+//        if (Gate::denies('category.view')){
+//            abort(403);
+//        }
+        //نفس الشي
+        Gate::authorize('category.view');
+
+        $category=Category::latest()->paginate(20);
         return view('admin.Category.index',compact('category'));
 
     }

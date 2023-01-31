@@ -5,6 +5,7 @@
 <meta content="Themesbrand" name="author" />
 <!-- App favicon -->
 <link rel="shortcut icon" href="{{ asset('adminassets/images/favicon.ico') }}">
+@vite('resources/js/app.js')
 
 <!-- Bootstrap Css -->
 <link href="{{ asset('adminassets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
