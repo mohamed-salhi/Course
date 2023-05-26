@@ -15,7 +15,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
         //allows <> denise
@@ -25,7 +25,14 @@ class CategoryController extends Controller
         //نفس الشي
         Gate::authorize('category.view');
 
-        $category=Category::latest()->paginate(20);
+
+         $val=$request->value??'';
+        $category=Category::when($val, function ($query, $val) {
+            $query->where('name','like','%'.$val.'%');
+        })->latest()->paginate(3);
+        if ($request->has('value')){
+            return view('admin.Category.inclode',compact('category'))->render();
+        }
         return view('admin.Category.index',compact('category'));
 
     }

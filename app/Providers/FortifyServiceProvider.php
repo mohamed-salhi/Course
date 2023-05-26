@@ -8,7 +8,6 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
@@ -32,6 +31,7 @@ class FortifyServiceProvider extends ServiceProvider
           //  Config::set('fortify.home',RouteServiceProvider::ADMIN);
 
         }
+
         $this->app->instance(LoginResponse::class, new class implements LoginResponse {
             public function toResponse($request)
             {
@@ -42,7 +42,6 @@ class FortifyServiceProvider extends ServiceProvider
 
             }
         });
-
         $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
             public function toResponse($request)
             {
@@ -66,6 +65,9 @@ class FortifyServiceProvider extends ServiceProvider
 
             }
         });
+
+
+
     }
 
     /**

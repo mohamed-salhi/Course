@@ -1,5 +1,7 @@
 @extends('admin.master')
 @section('style')
+    @vite('resources/js/app.js')
+    <script src="{{asset('js/app.js')}}"></script>
     <style>
         #map { height: 500px; }
     </style>
@@ -42,6 +44,7 @@
         <!-- Start Page-content-Wrapper -->
         <div class="page-content-wrapper">
 
+
             <div id="map"></div>
 
         </div>
@@ -71,16 +74,15 @@
         }
 
         function showPosition(position) {
-            // x.innerHTML = "Latitude: " + position.coords.latitude +
-            //     "<br>Longitude: " + position.coords.longitude;
-
             L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
                 .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
                 .openPopup();
-
-
-
         }
+        @foreach($map as $item)
+        L.marker([{{$item->lon}}, {{$item->lat}}]).addTo(map)
+            .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+            .openPopup();
+        @endforeach
     </script>
 <script>
 

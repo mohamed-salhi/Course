@@ -16,14 +16,27 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+
+
 Broadcast::channel('chat_group', function ($user) {
      if ($user->hasAbility('chat.view')){
-        return true;}
+        return true;
+     }
 
 },['guards'=>['admin']]);
+
+
+
+
 Broadcast::channel('online', function ($user) {
 
     if ($user->hasAbility('chat.view')){
         return $user;}
+
+},['guards'=>['admin']]);
+Broadcast::channel('map', function ($user) {
+    if ($user->hasAbility('chat.view')){
+        return true;}
 
 },['guards'=>['admin']]);

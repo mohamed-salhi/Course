@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-@auth('admin')
+     @auth('admin')
     <x-adimnPart.header />
     @endauth
     @auth('web')

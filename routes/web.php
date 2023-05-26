@@ -79,6 +79,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function (){
     Route::resource('Category',CategoryController::class);
     Route::resource('role',RolesController::class);
     Route::get('chat_group',[ChatGroupController::class,'index'])->name('chat_group');
+    Route::post('message',[ChatGroupController::class,'massage'])->name('massage');
+
     Route::get('map',[MapController::class,'map'])->name('map');
 
 
@@ -86,6 +88,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function (){
 
 
 
-});
 
+});
+Route::get('exsel',[MapController::class,'exsel'])->name('exsel');
 //Route::get('userr', [ChatGroupController::class, 'loadMore']);

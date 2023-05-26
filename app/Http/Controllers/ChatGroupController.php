@@ -64,6 +64,7 @@ if ($message[$i]->admin->id!=Auth::id()){
    }
 
     public function massage(Request $request){
+
         Gate::authorize('chat.view');
         $validator = Validator($request->all(),[
             'message' =>
@@ -76,11 +77,12 @@ if ($message[$i]->admin->id!=Auth::id()){
                 'message' => $validator->getMessageBag()->first()
             ], Response::HTTP_BAD_REQUEST);
         }
+
        $message= ChatAdmin::create([
             'message' =>$request->message,
             'admin_id'=>Auth::id()
         ]);
-        event(new chat($message));
+       event(new chat($message));
 //        return view('admin.Chat.index');
 
 

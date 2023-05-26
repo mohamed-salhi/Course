@@ -33,6 +33,9 @@ window.Echo = new Echo({
     disableStats: true,
 });
 
+
+
+
 window.Echo.private(`chat_group`)
     .listen('chat', (e) => {
      console.log(e.massage.created_at);
@@ -82,6 +85,19 @@ window.Echo.private(`chat_group`)
             }
     }
     )
+
+window.Echo.private(`map`)
+    .listen('mapp', (e) => {
+            console.log('edddd');
+            console.log(e);
+            console.log(e.lat);
+            L.marker([e.lon, e.lat]).addTo(map)
+                .bindPopup('')
+                .openPopup();
+        }
+    )
+
+console.log('e');
 
 
 window.Echo.join(`online`)

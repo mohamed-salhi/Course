@@ -7,13 +7,17 @@
     "require": {
         "php": "^8.0.2",
         "beyondcode/laravel-websockets": "^1.13",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.5",
         "laravel/fortify": "^1.16",
         "laravel/framework": "^9.19",
+        "laravel/nexmo-notification-channel": "^3.2",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "laravel/vonage-notification-channel": "^3.2",
         "owen-oj/laravel-getid3": "^2.1",
         "pusher/pusher-php-server": "^7.2",
+        "rap2hpoutre/fast-excel": "^5.1",
+        "stevebauman/location": "^6.5",
         "yoeunes/toastr": "^2.3"
     },
     "require-dev": {

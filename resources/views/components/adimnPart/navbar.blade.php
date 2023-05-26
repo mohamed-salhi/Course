@@ -75,12 +75,15 @@
 
 
             <!-- App Search -->
-            <form class="app-search d-none d-lg-block">
-                <div class="position-relative">
-                    <input type="text" class="form-control" placeholder="Search...">
-                    <span class="mdi mdi-magnify"></span>
-                </div>
-            </form>
+         @if(request()->routeIs('Category.*'))
+
+                <form id="serform" class="app-search d-none d-lg-block">
+                    <div class="position-relative">
+                        <input  id="searchTheKey" type="text" class="form-control txtInput" placeholder="Search...">
+                        <span class="mdi mdi-magnify"></span>
+                    </div>
+                </form>
+            @endif
 
             <!-- Notification Dropdown -->
             <div class="dropdown d-inline-block">
